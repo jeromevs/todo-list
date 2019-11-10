@@ -4,18 +4,23 @@ import "./App.css";
 function App() {
   const [taskInput, setTaskInput] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [selectedTask, setSelectedTask] = useState([]);
 
   const addTasks = event => {
     event.preventDefault();
     const newTasks = [...tasks];
-    newTasks.push({ name: taskInput });
+    newTasks.push({ name: taskInput, taskDone: false });
     setTasks(newTasks);
   };
 
   const delTasks = index => {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
+    setTasks(newTasks);
+  };
+
+  const strikeTask = index => {
+    const newTasks = [...tasks];
+    newTasks[index].taskDone = !newTasks[index].taskDone;
     setTasks(newTasks);
   };
 
@@ -41,12 +46,11 @@ function App() {
                     </button>
                     <li
                       className={
-                        selectedTask === "selected" ? "taskToStrikeOut" : null
+                        tasksItem.taskDone === true ? "taskToStrikeOut" : null
                       }
                       key={index}
                       onClick={() => {
-                        const newTasks = [...tasks];
-                        setSelectedTask("selected");
+                        strikeTask(index);
                       }}
                     >
                       {tasksItem.name}

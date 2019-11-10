@@ -47,11 +47,10 @@ li {
 
 .listButton {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .taskToStrikeOut {
   text-decoration: line-through;
-}
-.taskToDo {
-  text-decoration: none;
 }
