@@ -5,23 +5,37 @@ function App() {
   const [taskInput, setTaskInput] = useState("");
   const [tasks, setTasks] = useState([]);
 
+  //add new task to array tasks with a state status
   const addTasks = event => {
     event.preventDefault();
     const newTasks = [...tasks];
     newTasks.push({ name: taskInput, taskDone: false });
+    newTasks.sort(sortTask);
     setTasks(newTasks);
+    setTaskInput("");
   };
 
+  // delete task from array tasks by index
   const delTasks = index => {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
     setTasks(newTasks);
   };
 
+  // put strikes to taskInput by changing the status
   const strikeTask = index => {
     const newTasks = [...tasks];
     newTasks[index].taskDone = !newTasks[index].taskDone;
+    newTasks.sort(sortTask);
     setTasks(newTasks);
+  };
+
+  const sortTask = (a, b) => {
+    if (a.taskDone === true && b.taskDone === false) {
+      return 0;
+    } else {
+      return -1;
+    }
   };
 
   return (
@@ -32,6 +46,7 @@ function App() {
           <section className="affichage">
             <ul>
               {tasks.map((tasksItem, index) => {
+                // for each task push to the array creating a line with a button, the value of the task and a status
                 return (
                   <div className="listButton">
                     <button
@@ -46,7 +61,8 @@ function App() {
                     </button>
                     <li
                       className={
-                        tasksItem.taskDone === true ? "taskToStrikeOut" : null
+                        //putting line-through style on the task
+                        tasksItem.taskDone === true ? "taskToStrikeOut" : ""
                       }
                       key={index}
                       onClick={() => {
